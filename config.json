@@ -1,0 +1,260 @@
+{
+    "assistente": {
+        "nome": "DroneDash",
+        "descricao": "Assistente virtual para despacho de drones em um centro de distribuicao de entregas rapidas.",
+        "porta": 7002,
+        "linguagem": "portuguese",
+        "modelo_asr": "lgris/wav2vec2-large-xlsr-open-brazilian-portuguese-v2",
+        "limite_upload_mb": 20
+    },
+    "nlu": {
+        "score_minimo": 2,
+        "sinonimos": {
+            "decolagem": ["decolar", "partida", "saida", "colagem", "ecolagem"],
+            "drone": ["druno", "drunes", "dru", "druntizipe"],
+            "xy": ["x", "y", "silon"],
+            "abc": ["a", "b", "c", "besse"],
+            "p001": ["p", "prezero", "zero", "um"],
+            "proxima": ["praxima"],
+            "monitoramento": ["monitoriamento"],
+            "bateria": ["carga", "energia"],
+            "pedidos": ["entregas", "lista"],
+            "base": ["estacao", "recarga"],
+            "meteorologico": ["tempo", "clima", "meteorologia"],
+            "frota": ["drones", "aeronaves"]
+        }
+    },
+    "seguranca_lgpd": {
+        "principio": "Minimizacao de dados",
+        "observacao": "A simulacao usa apenas identificadores operacionais de drones e pedidos, sem nomes, enderecos ou dados pessoais de clientes."
+    },
+    "drones": [
+        {
+            "id": "XY",
+            "bateria_percentual": 86,
+            "status": "em_espera",
+            "base": "A1",
+            "pedido_atual": null
+        },
+        {
+            "id": "ABC",
+            "bateria_percentual": 42,
+            "status": "em_espera",
+            "base": "B2",
+            "pedido_atual": null
+        },
+        {
+            "id": "Z",
+            "bateria_percentual": 71,
+            "status": "decolagem_pendente",
+            "base": "A1",
+            "pedido_atual": "P003"
+        },
+        {
+            "id": "K9",
+            "bateria_percentual": 94,
+            "status": "em_rota",
+            "base": "C1",
+            "pedido_atual": "P002"
+        }
+    ],
+    "pedidos": [
+        {
+            "id": "P001",
+            "prioridade": "alta",
+            "zona": "Centro",
+            "status": "pendente"
+        },
+        {
+            "id": "P002",
+            "prioridade": "media",
+            "zona": "Sul",
+            "status": "em_rota"
+        },
+        {
+            "id": "P003",
+            "prioridade": "alta",
+            "zona": "Oeste",
+            "status": "pendente"
+        },
+        {
+            "id": "P004",
+            "prioridade": "baixa",
+            "zona": "Norte",
+            "status": "pendente"
+        }
+    ],
+    "meteorologia": {
+        "condicao": "chuva_intensa",
+        "vento_kmh": 38,
+        "visibilidade_km": 3.2,
+        "operacao_segura": false
+    },
+    "comandos": [
+        {
+            "id": "ligar_centro_distribuicao",
+            "frase": "Ligar centro de distribuicao",
+            "descricao": "Ativa o ambiente operacional do centro de despacho.",
+            "atuador": "centro",
+            "acao": "ligar",
+            "objeto": "centro_distribuicao",
+            "entidade": null,
+            "palavras": ["ligar", "centro", "distribuicao"],
+            "resposta": "Centro de distribuicao ligado e pronto para operacao assistida."
+        },
+        {
+            "id": "desligar_centro_distribuicao",
+            "frase": "Desligar centro de distribuicao",
+            "descricao": "Desativa o ambiente operacional do centro de despacho.",
+            "atuador": "centro",
+            "acao": "desligar",
+            "objeto": "centro_distribuicao",
+            "entidade": null,
+            "palavras": ["desligar", "centro", "distribuicao"],
+            "resposta": "Centro de distribuicao desligado com seguranca."
+        },
+        {
+            "id": "autorizar_decolagem_drone_xy",
+            "frase": "Autorizar decolagem do drone XY",
+            "descricao": "Autoriza a decolagem do drone XY quando a operacao estiver habilitada.",
+            "atuador": "despacho",
+            "acao": "autorizar_decolagem",
+            "objeto": "drone",
+            "entidade": "XY",
+            "palavras": ["autorizar", "decolagem", "drone", "xy", "x", "y"],
+            "resposta": "Autorizar decolagem do drone XY."
+        },
+        {
+            "id": "verificar_bateria_drone_abc",
+            "frase": "Verificar nivel de bateria do drone ABC",
+            "descricao": "Consulta a carga atual do drone ABC.",
+            "atuador": "frota",
+            "acao": "verificar_bateria",
+            "objeto": "drone",
+            "entidade": "ABC",
+            "palavras": ["verificar", "nivel", "bateria", "drone", "abc", "a", "b", "c"],
+            "resposta": "Verificar nivel de bateria do drone ABC."
+        },
+        {
+            "id": "abortar_decolagem_drone_z",
+            "frase": "Abortar decolagem do drone Z mau tempo detectado",
+            "descricao": "Cancela a decolagem do drone Z por condicao meteorologica insegura.",
+            "atuador": "despacho",
+            "acao": "abortar_decolagem",
+            "objeto": "drone",
+            "entidade": "Z",
+            "palavras": ["abortar", "decolagem", "drone", "z", "mau", "tempo"],
+            "resposta": "Abortar decolagem do drone Z, mau tempo detectado."
+        },
+        {
+            "id": "retornar_drone_base_recarga",
+            "frase": "Retornar drone para base de recarga",
+            "descricao": "Ordena o retorno do drone operacional mais adequado para base de recarga.",
+            "atuador": "despacho",
+            "acao": "retornar_base_recarga",
+            "objeto": "drone",
+            "entidade": null,
+            "palavras": ["retornar", "drone", "base", "recarga"],
+            "resposta": "Retornar drone para base de recarga."
+        },
+        {
+            "id": "verificar_pedidos_pendentes",
+            "frase": "Verificar pedidos pendentes na lista de entregas",
+            "descricao": "Exibe a quantidade e os codigos operacionais dos pedidos pendentes.",
+            "atuador": "pedidos",
+            "acao": "verificar_pendentes",
+            "objeto": "lista_entregas",
+            "entidade": null,
+            "palavras": ["verificar", "pedidos", "pendentes", "lista", "entregas"],
+            "resposta": "Verificar pedidos pendentes na lista de entregas."
+        },
+        {
+            "id": "iniciar_monitoramento_meteorologico",
+            "frase": "Iniciar monitoramento meteorologico",
+            "descricao": "Ativa a simulacao de leitura das condicoes de tempo.",
+            "atuador": "meteorologia",
+            "acao": "iniciar",
+            "objeto": "monitoramento_meteorologico",
+            "entidade": null,
+            "palavras": ["iniciar", "monitoramento", "meteorologico", "tempo", "clima"],
+            "resposta": "Monitoramento meteorologico iniciado para avaliacao de rotas."
+        },
+        {
+            "id": "encerrar_monitoramento_meteorologico",
+            "frase": "Encerrar monitoramento meteorologico",
+            "descricao": "Encerra a simulacao meteorologica.",
+            "atuador": "meteorologia",
+            "acao": "encerrar",
+            "objeto": "monitoramento_meteorologico",
+            "entidade": null,
+            "palavras": ["encerrar", "monitoramento", "meteorologico", "tempo", "clima"],
+            "resposta": "Monitoramento meteorologico encerrado."
+        },
+        {
+            "id": "iniciar_monitoramento_frota",
+            "frase": "Iniciar monitoramento da frota",
+            "descricao": "Ativa o acompanhamento da frota de drones.",
+            "atuador": "frota",
+            "acao": "iniciar",
+            "objeto": "monitoramento_frota",
+            "entidade": null,
+            "palavras": ["iniciar", "monitoramento", "frota", "drones"],
+            "resposta": "Monitoramento da frota iniciado."
+        },
+        {
+            "id": "encerrar_monitoramento_frota",
+            "frase": "Encerrar monitoramento da frota",
+            "descricao": "Desativa o acompanhamento da frota.",
+            "atuador": "frota",
+            "acao": "encerrar",
+            "objeto": "monitoramento_frota",
+            "entidade": null,
+            "palavras": ["encerrar", "monitoramento", "frota", "drones"],
+            "resposta": "Monitoramento da frota encerrado."
+        },
+        {
+            "id": "despachar_proxima_entrega",
+            "frase": "Despachar proxima entrega",
+            "descricao": "Associa um drone disponivel ao pedido pendente de maior prioridade.",
+            "atuador": "despacho",
+            "acao": "despachar_proxima_entrega",
+            "objeto": "lista_entregas",
+            "entidade": null,
+            "palavras": ["despachar", "proxima", "entrega", "pedido"],
+            "resposta": "Proxima entrega preparada para despacho."
+        },
+        {
+            "id": "confirmar_entrega_pedido_p001",
+            "frase": "Confirmar entrega do pedido P001",
+            "descricao": "Marca o pedido P001 como entregue.",
+            "atuador": "pedidos",
+            "acao": "confirmar_entrega",
+            "objeto": "pedido",
+            "entidade": "P001",
+            "palavras": ["confirmar", "entrega", "pedido", "p001"],
+            "resposta": "Entrega do pedido P001 confirmada."
+        },
+        {
+            "id": "iniciar_registro_operacional",
+            "frase": "Iniciar registro operacional",
+            "descricao": "Abre um relatorio operacional da sessao de despacho.",
+            "atuador": "registro",
+            "acao": "iniciar",
+            "objeto": "registro_operacional",
+            "entidade": null,
+            "palavras": ["iniciar", "registro", "operacional"],
+            "resposta": "Registro operacional iniciado."
+        },
+        {
+            "id": "encerrar_registro_operacional",
+            "frase": "Encerrar registro operacional",
+            "descricao": "Finaliza e salva o relatorio operacional em JSON.",
+            "atuador": "registro",
+            "acao": "encerrar",
+            "objeto": "registro_operacional",
+            "entidade": null,
+            "palavras": ["encerrar", "registro", "operacional"],
+            "resposta": "Registro operacional encerrado e salvo em relatorio JSON."
+        }
+    ]
+}

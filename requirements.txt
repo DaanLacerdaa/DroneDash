@@ -1,0 +1,9 @@
+# Runtime testado em Windows + Python 3.13.
+# Mantenha torch e torchaudio na mesma versao para evitar conflitos binarios.
+flask==3.1.2
+nltk==3.9.3
+transformers==4.57.1
+torch==2.11.0
+torchaudio==2.11.0
+soundfile==0.13.1
+sounddevice==0.5.5

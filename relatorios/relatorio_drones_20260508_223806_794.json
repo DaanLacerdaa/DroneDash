@@ -1,0 +1,96 @@
+{
+    "assistente": "DroneDash",
+    "data_inicio": "2026-05-08 22:38:06",
+    "data_fim": "2026-05-08 22:38:06",
+    "duracao_s": 0.2,
+    "lgpd": {
+        "principio": "Minimizacao de dados",
+        "observacao": "A simulacao usa apenas identificadores operacionais de drones e pedidos, sem nomes, enderecos ou dados pessoais de clientes."
+    },
+    "resumo_operacional": {
+        "centro": {
+            "ligado": false,
+            "inicio": null
+        },
+        "monitoramentos": {
+            "frota": false,
+            "meteorologico": false
+        },
+        "meteorologia": {
+            "condicao": "chuva_intensa",
+            "vento_kmh": 38,
+            "visibilidade_km": 3.2,
+            "operacao_segura": false
+        }
+    },
+    "drones": {
+        "XY": {
+            "id": "XY",
+            "bateria_percentual": 86,
+            "status": "em_espera",
+            "base": "A1",
+            "pedido_atual": null
+        },
+        "ABC": {
+            "id": "ABC",
+            "bateria_percentual": 42,
+            "status": "em_espera",
+            "base": "B2",
+            "pedido_atual": null
+        },
+        "Z": {
+            "id": "Z",
+            "bateria_percentual": 71,
+            "status": "decolagem_pendente",
+            "base": "A1",
+            "pedido_atual": "P003"
+        },
+        "K9": {
+            "id": "K9",
+            "bateria_percentual": 94,
+            "status": "em_rota",
+            "base": "C1",
+            "pedido_atual": "P002"
+        }
+    },
+    "pedidos": [
+        {
+            "id": "P001",
+            "prioridade": "alta",
+            "zona": "Centro",
+            "status": "pendente"
+        },
+        {
+            "id": "P002",
+            "prioridade": "media",
+            "zona": "Sul",
+            "status": "em_rota"
+        },
+        {
+            "id": "P003",
+            "prioridade": "alta",
+            "zona": "Oeste",
+            "status": "pendente"
+        },
+        {
+            "id": "P004",
+            "prioridade": "baixa",
+            "zona": "Norte",
+            "status": "pendente"
+        }
+    ],
+    "eventos": [
+        {
+            "timestamp": "2026-05-08 22:38:06",
+            "tipo": "sistema",
+            "mensagem": "Estado operacional inicializado.",
+            "dados": {}
+        },
+        {
+            "timestamp": "2026-05-08 22:38:06",
+            "tipo": "registro",
+            "mensagem": "Registro operacional iniciado.",
+            "dados": {}
+        }
+    ]
+}

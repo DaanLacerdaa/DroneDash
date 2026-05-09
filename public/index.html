@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DroneDash - Assistente de Despacho</title>
+    <meta name="description" content="Assistente virtual para despacho de drones em empresa de entregas rapidas.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark">DD</div>
+            <div>
+                <h1>DroneDash</h1>
+                <p>Centro de despacho de drones</p>
+            </div>
+        </div>
+        <div class="system-state">
+            <span class="state-dot" id="systemDot"></span>
+            <span id="systemLabel">Aguardando servidor</span>
+        </div>
+    </header>
+
+    <main class="layout">
+        <section class="panel command-panel">
+            <div class="section-title">
+                <span>Comando</span>
+                <strong>Voz ou texto</strong>
+            </div>
+
+            <button class="mic-button" id="recordButton" type="button" title="Gravar comando de voz">
+                <span class="mic-symbol">🎙</span>
+            </button>
+            <p class="mic-state" id="micState">Pressione para gravar</p>
+
+            <form class="text-command" id="textCommandForm">
+                <label for="textCommand">Simulador de comando</label>
+                <div class="input-row">
+                    <input id="textCommand" name="textCommand" type="text" autocomplete="off" value="Autorizar decolagem do drone XY">
+                    <button type="submit">Executar</button>
+                </div>
+            </form>
+
+            <div class="result-box">
+                <span>Transcricao</span>
+                <p id="transcriptionText">Aguardando comando...</p>
+            </div>
+
+            <div class="feedback-box" id="feedbackBox">
+                <span>Resposta</span>
+                <p id="feedbackText">O resultado operacional aparece aqui.</p>
+            </div>
+        </section>
+
+        <section class="panel operations-panel">
+            <div class="section-title">
+                <span>Operacao</span>
+                <strong>Estado atual</strong>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric">
+                    <span>Centro</span>
+                    <strong id="centerStatus">OFFLINE</strong>
+                </div>
+                <div class="metric">
+                    <span>Pedidos pendentes</span>
+                    <strong id="pendingOrders">0</strong>
+                </div>
+                <div class="metric">
+                    <span>Frota monitorada</span>
+                    <strong id="fleetMonitor">NAO</strong>
+                </div>
+                <div class="metric">
+                    <span>Tempo seguro</span>
+                    <strong id="weatherSafe">NAO</strong>
+                </div>
+            </div>
+
+            <div class="dispatch-map" aria-label="Mapa operacional simulado">
+                <div class="route-line route-a"></div>
+                <div class="route-line route-b"></div>
+                <div class="hub">BASE A1</div>
+                <div class="zone zone-north">Norte</div>
+                <div class="zone zone-center">Centro</div>
+                <div class="zone zone-south">Sul</div>
+                <div class="drone-pin pin-xy" id="pinXY">XY</div>
+                <div class="drone-pin pin-abc" id="pinABC">ABC</div>
+                <div class="drone-pin pin-z" id="pinZ">Z</div>
+                <div class="drone-pin pin-k9" id="pinK9">K9</div>
+            </div>
+        </section>
+
+        <section class="panel fleet-panel">
+            <div class="section-title">
+                <span>Frota</span>
+                <strong>Drones cadastrados</strong>
+            </div>
+            <div class="drone-list" id="droneList"></div>
+        </section>
+
+        <section class="panel weather-panel">
+            <div class="section-title">
+                <span>Meteorologia</span>
+                <strong>Simulacao</strong>
+            </div>
+            <dl class="weather-list">
+                <div>
+                    <dt>Condicao</dt>
+                    <dd id="weatherCondition">-</dd>
+                </div>
+                <div>
+                    <dt>Vento</dt>
+                    <dd id="weatherWind">-</dd>
+                </div>
+                <div>
+                    <dt>Visibilidade</dt>
+                    <dd id="weatherVisibility">-</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="panel commands-panel">
+            <div class="section-title">
+                <span>Comandos</span>
+                <strong>Configurados no JSON</strong>
+            </div>
+            <div class="command-list" id="commandList"></div>
+        </section>
+
+        <section class="panel log-panel">
+            <div class="section-title">
+                <span>Eventos</span>
+                <button class="secondary-button" id="clearLogButton" type="button">Limpar</button>
+            </div>
+            <div class="log-list" id="logList"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
