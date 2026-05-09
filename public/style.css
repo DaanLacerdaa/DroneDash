@@ -163,15 +163,24 @@ input {
     color: white;
     cursor: pointer;
     box-shadow: 0 10px 24px rgba(22, 125, 127, 0.28);
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 .mic-button.recording {
     background: var(--red);
+    box-shadow: 0 10px 28px rgba(180, 61, 53, 0.40);
     animation: pulse 1s infinite;
 }
 
 .mic-button.processing {
     background: var(--yellow);
+    box-shadow: 0 10px 28px rgba(185, 120, 20, 0.35);
+    cursor: wait;
+}
+
+.mic-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .mic-symbol {

@@ -37,6 +37,9 @@ clearLogButton.addEventListener('click', () => {
 });
 
 async function startRecording() {
+    setMicIcon('⏳');
+    micState.textContent = 'Aguardando permissao do microfone...';
+
     try {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -53,9 +56,12 @@ async function startRecording() {
         processor.connect(audioContext.destination);
         recording = true;
         recordButton.classList.add('recording');
+        setMicIcon('⏹');
         micState.textContent = 'Gravando... pressione para parar';
         addLog('Gravacao iniciada.', 'info');
     } catch (error) {
+        setMicIcon('🎙');
+        micState.textContent = `Microfone indisponivel: ${error.message}`;
         addLog(`Falha ao acessar microfone: ${error.message}`, 'error');
     }
 }
@@ -64,6 +70,7 @@ async function stopRecording() {
     recording = false;
     recordButton.classList.remove('recording');
     recordButton.classList.add('processing');
+    setMicIcon('⌛');
     micState.textContent = 'Processando audio...';
 
     if (processor) processor.disconnect();
@@ -89,11 +96,13 @@ async function stopRecording() {
         addLog(`Erro no reconhecimento: ${error.message}`, 'error');
     } finally {
         recordButton.classList.remove('processing');
+        setMicIcon('🎙');
         micState.textContent = 'Pressione para gravar';
     }
 }
 
 async function executeTextCommand(texto) {
+    micState.textContent = 'Processando comando...';
     try {
         const response = await fetch('/executar_texto', {
             method: 'POST',
@@ -106,6 +115,8 @@ async function executeTextCommand(texto) {
     } catch (error) {
         showFeedback(`Erro de comunicacao: ${error.message}`, false);
         addLog(`Erro de comunicacao: ${error.message}`, 'error');
+    } finally {
+        if (!recording) micState.textContent = 'Pressione para gravar';
     }
 }
 
@@ -141,14 +152,23 @@ async function pollStatus() {
     }
 }
 
+function setMicIcon(symbol) {
+    const el = recordButton.querySelector('.mic-symbol');
+    if (el) el.textContent = symbol;
+}
+
 function setAudioAvailable(available) {
     if (available) {
         recordButton.disabled = false;
         recordButton.title = 'Gravar comando de voz';
-        if (!recording) micState.textContent = 'Pressione para gravar';
+        if (!recording) {
+            setMicIcon('🎙');
+            micState.textContent = 'Pressione para gravar';
+        }
     } else {
         recordButton.disabled = true;
         recordButton.title = 'Audio indisponivel: reinicie o servidor com ASSISTENTE_CARREGAR_MODELO=1 no .env';
+        setMicIcon('🚫');
         micState.textContent = 'Audio indisponivel — reinicie o servidor com ASSISTENTE_CARREGAR_MODELO=1';
     }
 }
