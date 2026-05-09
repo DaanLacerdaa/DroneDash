@@ -130,8 +130,21 @@ async function pollStatus() {
         if (!response.ok) return;
         const status = await response.json();
         renderStatus(status);
+        setAudioAvailable(status.modelo_carregado === true);
     } catch {
         setSystemState(false);
+    }
+}
+
+function setAudioAvailable(available) {
+    if (available) {
+        recordButton.disabled = false;
+        recordButton.title = 'Gravar comando de voz';
+        if (!recording) micState.textContent = 'Pressione para gravar';
+    } else {
+        recordButton.disabled = true;
+        recordButton.title = 'Audio indisponivel: reinicie o servidor com ASSISTENTE_CARREGAR_MODELO=1';
+        micState.textContent = 'Audio indisponivel (modelo ASR nao carregado)';
     }
 }
 

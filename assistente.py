@@ -313,8 +313,11 @@ if servico:
 
     @servico.get("/status")
     def obter_status():
+        contexto = servico.config["contexto"]
+        status = get_status()
+        status["modelo_carregado"] = contexto.get("modelo_carregado", False)
         return Response(
-            json.dumps(get_status(), ensure_ascii=False),
+            json.dumps(status, ensure_ascii=False),
             status=200,
             content_type="application/json"
         )
@@ -363,7 +366,7 @@ if servico:
         if not contexto.get("modelo_carregado"):
             return Response(
                 json.dumps({
-                    "erro": "Modelo ASR nao carregado. Inicie sem ASSISTENTE_CARREGAR_MODELO=0 para usar audio."
+                    "erro": "Modelo ASR nao carregado. Reinicie o servidor com ASSISTENTE_CARREGAR_MODELO=1 no arquivo .env."
                 }, ensure_ascii=False),
                 status=503,
                 content_type="application/json"
