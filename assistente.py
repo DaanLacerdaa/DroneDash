@@ -5,6 +5,9 @@ import re
 import secrets
 import unicodedata
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from inicializador_modelo import iniciar_modelo, possui_cuda
 from transcritor import TAXA_AMOSTRAGEM, carregar_fala, transcrever_fala
 
