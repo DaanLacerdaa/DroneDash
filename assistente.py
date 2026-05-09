@@ -6,7 +6,7 @@ import secrets
 import unicodedata
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(Path(__file__).parent / ".env")
 
 from inicializador_modelo import iniciar_modelo, possui_cuda
 from transcritor import TAXA_AMOSTRAGEM, carregar_fala, transcrever_fala
@@ -413,7 +413,10 @@ def ativar_web(contexto):
 
 if __name__ == "__main__":
     carregar_modelo = os.getenv("ASSISTENTE_CARREGAR_MODELO", "1") != "0"
+    print(f"[CONFIG] ASSISTENTE_CARREGAR_MODELO={os.getenv('ASSISTENTE_CARREGAR_MODELO', '(nao definido, padrao=1)')}")
+    print(f"[CONFIG] carregar_modelo={carregar_modelo}")
     contexto = iniciar(carregar_modelo=carregar_modelo)
+    print(f"[CONFIG] modelo_carregado={contexto.get('modelo_carregado')}")
 
     if not contexto["iniciado"]:
         print("Ocorreu erro de inicializacao do assistente.")
